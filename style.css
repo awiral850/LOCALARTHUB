@@ -223,12 +223,14 @@ body {
   text-align: center;
 }
 
+
 #product1 .pro-container{
   display: flex;
   justify-content: space-between;
   padding: 20px 0;
   flex-wrap: wrap;
 }
+
 
 #product1 .pro {
   width: 23%;
@@ -293,7 +295,7 @@ body {
   align-items: center;
   text-align: center;
   margin: 50px 0;
-  background: url("img/banner/b2.jpg");
+  background: url("./images/banner.jpg");
   background-size: cover;
   background-position: center;
   width: 100%;
@@ -333,7 +335,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  background: url("img/banner/b17.jpg");
+  background: url("./images/banner.jpg");
   background-size: cover;
   background-position: center;
   min-width: 580px;
@@ -345,7 +347,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  background: url("img/banner/b10.jpg");
+  background: url("./images/banner.jpg");
   background-size: cover;
   background-position: center;
   width: 580px;
@@ -387,7 +389,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  background: url("img/banner/b7.jpg");
+  background: url("./images/banner.jpg");
   background-size: cover;
   background-position: center;
   min-width: 30%;
@@ -396,10 +398,10 @@ body {
   margin-bottom: 20px;
 }
 #banner3 .banner-box2{
-  background: url("img/banner/b4.jpg");
+  background: url("./images/banner.jpg");
 }
 #banner3 .banner-box3{
-  background: url("img/banner/b18.jpg");
+  background: url("./images/banner.jpg");
 }
 #banner3 h2 {
   color: #fff;
@@ -416,7 +418,7 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  background-image: url("img/banner/b14.png");
+  background-image: url("./images/banner.jpg");
   background-repeat: no-repeat;
   background-position: 20% 30%;
   background-color: #041e42;
