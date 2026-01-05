@@ -95,8 +95,8 @@
         <h1>Local Art Hub</h1>
         
         <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('signin')">Sign In</button> <!---opens the sign in tab--->
-            <button class="tab-button" onclick="switchTab('register')">Register</button>
+            <button class="tab-button active" onclick="switchTab('signin', this)">Sign In</button> <!---opens the sign in tab--->
+            <button class="tab-button" onclick="switchTab('register', this)">Register</button>
         </div>
 
         <div id="signin" class="tab-content active">
@@ -115,10 +115,10 @@
 
         <div id="register" class="tab-content">
             <form>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="register-name">Full Name</label>
                     <input type="text" id="register-name" required>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label for="register-email">Email Address</label>
                     <input type="email" id="register-email" required>
@@ -127,17 +127,17 @@
                     <label for="register-password">Password</label>
                     <input type="password" id="register-password" required>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="register-confirm">Confirm Password</label>
                     <input type="password" id="register-confirm-password" required>
-                </div>
+                </div> -->
                 <button id="Register-New" type="submit">Register</button>
             </form>
         </div>
     </div>
 
     <script>
-        function switchTab(tabName) {
+        function switchTab(tabName, button) {
             const contents = document.querySelectorAll('.tab-content');
             const buttons = document.querySelectorAll('.tab-button');
             
@@ -145,8 +145,9 @@
             buttons.forEach(button => button.classList.remove('active'));
             
             document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+            button.classList.add('active');
         }
     </script>
+    <script type="module" src="script.js" defer></script>
 </body>
 </html>

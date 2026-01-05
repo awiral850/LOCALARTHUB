@@ -8,24 +8,28 @@
         <title>LocalArtHub</title>
          <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
         <link rel="stylesheet" href="style.css">
-        <script type="module" src="signin.html" defer></script>
+        <script type="module" src="script.js" defer></script>
+        <!-- <script type="module" src="signin.html" defer></script> -->
+        
     </head>
-
+ 
     <body>
         <section id="header">
-            <a href="./images/LocalArtHub logo.png"><img src="./images/LocalArtHub logo.png" class="logo" alt="" style="width: 30px;height: 30px;"></a>
+            <a href="main.html"><img src="./images/LocalArtHub logo.png" class="logo" alt="" style="width: 30px;height: 30px;"></a>
             
             <div>
                 <ul id="navbar">
                     <li><a class="active" href="#">Home</a></li>
-                    <li><a href="signin.html">Login</a></li>
                     <li><a href="shop.html">Shop</a></li>
                     <li><a href="blog.html">Blog</a></li>
-                    <li><a href="about.html">About</a></li>
+                    <li><a href="about.html" target="_blank">About</a></li>
                     <li><a href="contactus.html">Contact</a></li>
-                    <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-cart"></i></a></li>
-                    <a href="#" id="close"><i class="fas fa-times"></i></a>
+                    <a href="#" id="close"><i class="fas fa-times"></i></a> 
                 </ul>
+            </div>
+            <div id="right-nav">
+                <a id="lg-bag" href="cart.html"><i class="far fa-shopping-cart"></i></a>
+                <a id="login-btn" href="signin.html">Login</a>
             </div>
             <div id="mobile">
                 <a href="cart.html"><i class="far fa-shopping-cart"></i></a>
@@ -34,11 +38,40 @@
         </section>
 
         <section id="hero">
-            <h4>Welcome to LocalArtHub</h4>
-            <h2>Discover Unique<br> Handmade Art</h2>
-            <h1>Support Local Artists</h1>
-            <p>Explore our curated collection of handcrafted art pieces from talented local artisans.</p>
-            <button>Shop Now</button>
+            <div class="slideshow-container">
+                <div class="slide active">
+                    <img src="images/ceramicvase.jpg" alt="Slide 1">
+                    <div class="slide-content">
+                        <h4>Welcome to LocalArtHub</h4>
+                        <h2>Discover Unique<br> Handmade Art</h2>
+                        <h1>Support Local Artists</h1>
+                        <p>Explore our curated collection of handcrafted art pieces from talented local artisans.</p>
+                        <button>Shop Now</button>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/khukuri.jpg" alt="Slide 2">
+                    <div class="slide-content">
+                        <h4>Welcome to LocalArtHub</h4>
+                        <h2>Discover Unique<br> Handmade Art</h2>
+                        <h1>Support Local Artists</h1>
+                        <p>Explore our curated collection of handcrafted art pieces from talented local artisans.</p>
+                        <button>Shop Now</button>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="images/pashmina.jpg" alt="Slide 3">
+                    <div class="slide-content">
+                        <h4>Welcome to LocalArtHub</h4>
+                        <h2>Discover Unique<br> Handmade Art</h2>
+                        <h1>Support Local Artists</h1>
+                        <p>Explore our curated collection of handcrafted art pieces from talented local artisans.</p>
+                        <button>Shop Now</button>
+                    </div>
+                </div>
+                <button class="prev">&#10094;</button>
+                <button class="next">&#10095;</button>
+            </div>
         </section>
             
         <section id="feature" class="section-p1">
