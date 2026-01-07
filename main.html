@@ -20,13 +20,19 @@
             <div>
                 <ul id="navbar">
                     <li><a class="active" href="#">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="aboutus.html">About</a></li>
-                    <li><a href="contactus.html">Contact</a></li>
+                    <li><a href="shop.html" >Shop</a></li>
+                    <li><a href="#" >Blog</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                    <li><a href="aboutus.html" >About</a></li>
+                    <li><a href="contactus.html" >Contact</a></li>
                     <a href="#" id="close"><i class="fas fa-times"></i></a> 
                 </ul>
             </div>
+            <section id="home-cart">
+  <h2>Your Cart</h2>
+  <div id="cart-list"></div>
+</section>
+
             <div id="right-nav">
                 <a id="lg-bag" href="viewcart.html"><i class="far fa-shopping-cart"></i></a>
                 <a id="login-btn" href="signin.html">Login</a>
@@ -492,6 +498,26 @@
         
        
         <script src="script.js"></script>
+
+        <!-- <script>
+    // Get all navigation links
+    const navLinks = document.querySelectorAll('nav ul li a');
+
+    // Get the current page URL path (e.g., "/about.html")
+    const currentPath = window.location.pathname;
+
+    // Loop through the links to find a match
+    navLinks.forEach(link => {
+        // Check if the link's href matches the current path
+        if (link.getAttribute('href') === currentPath.substring(currentPath.lastIndexOf('/') + 1)) {
+            // Remove the active class from all other links (if any)
+            navLinks.forEach(l => l.classList.remove('active'));
+            // Add the active class to the matching link
+            link.classList.add('active');
+        }
+    });
+</script> -->
+
     </body>
 
 </html>
