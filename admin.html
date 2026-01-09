@@ -72,20 +72,59 @@
             margin-right: 10px;
         }
     </style>
-    <script>
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
 const token = localStorage.getItem("authToken");
 if (!token) {
   alert("Please login first");
   window.location.href = "signin.html";
 }
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBsQNrAnhfzhWSepgMJEr3DbnLIUwHhOP0",
+  authDomain: "localarthub-38ae5.firebaseapp.com",
+  projectId: "localarthub-38ae5",
+  storageBucket: "localarthub-38ae5.firebasestorage.app",
+  messagingSenderId: "741966380978",
+  appId: "1:741966380978:web:d94d5516d308b799c1eeab",
+  measurementId: "G-Y7F4HQQ3ZX"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Determine home redirect based on user role
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    try {
+      const idTokenResult = await user.getIdTokenResult();
+      const isSeller = idTokenResult.claims.seller === true;
+      const isAdmin = idTokenResult.claims.admin === true;
+      
+      const targetUrl = (isSeller || isAdmin) ? "seller-dashboard.html" : "main.html";
+      
+      const homeBtn = document.getElementById("home-btn");
+      const homeLogo = document.getElementById("home-logo");
+      
+      if (homeBtn) homeBtn.href = targetUrl;
+      if (homeLogo) homeLogo.href = targetUrl;
+    } catch (e) {
+      console.error("Error checking user role:", e);
+    }
+  }
+});
 </script>
 
 </head>
 <body>
     <section id="header">
-        <a href="main.html"><img src="./images/LocalArtHub logo.png" class="logo" alt="" style="width: 30px;height: 30px;"></a>
+        <a id="home-logo" href="main.html"><img src="./images/LocalArtHub logo.png" class="logo" alt="" style="width: 30px;height: 30px;"></a>
         <div>
             <ul id="navbar">
+                <li><a id="home-btn" href="main.html">Home</a></li>
                 <li><a class="active" href="admin.html">Admin</a></li>
                 <a href="#" id="close"><i class="fas fa-times"></i></a>
             </ul>
@@ -113,6 +152,30 @@ if (!token) {
                 <div class="form-group">
                     <input id="stock" placeholder="Stock">
                 </div>
+                <div class="form-group">
+                    <select id="pcategory">
+                        <option value="">Select Category</option>
+                        <option value="Antiques Artifacts">Antiques Artifacts</option>
+                        <option value="Decorative Arts">Decorative Arts</option>
+                        <option value="Fine Art">Fine Art</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select id="psubcategory">
+                        <option value="">Select Subcategory</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select id="pera">
+                        <option value="">Select Era/Period</option>
+                        <option value="18th Century">18th Century</option>
+                        <option value="Mid-Century">Mid-Century</option>
+                        <option value="Victorian">Victorian</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea id="pdescription" placeholder="Description"></textarea>
+                </div>
             
                 <button type="button" onclick="addProduct()">Save</button>
             </form>
@@ -135,6 +198,34 @@ if (!token) {
                 <div class="form-group">
                     <label for="edit-stock">Stock:</label>
                     <input type="number" id="edit-stock" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-category">Category:</label>
+                    <select id="edit-category">
+                        <option value="">Select Category</option>
+                        <option value="Antiques Artifacts">Antiques Artifacts</option>
+                        <option value="Decorative Arts">Decorative Arts</option>
+                        <option value="Fine Art">Fine Art</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-subcategory">Subcategory:</label>
+                    <select id="edit-subcategory">
+                        <option value="">Select Subcategory</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-era">Era/Period:</label>
+                    <select id="edit-era">
+                        <option value="">Select Era/Period</option>
+                        <option value="18th Century">18th Century</option>
+                        <option value="Mid-Century">Mid-Century</option>
+                        <option value="Victorian">Victorian</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-description">Description:</label>
+                    <textarea id="edit-description"></textarea>
                 </div>
                 <button type="submit" class="btn">Update Product</button>
                 <button type="button" class="btn" onclick="cancelEdit()" style="background: #6c757d;">Cancel</button>

@@ -1,6 +1,6 @@
 const express = require("express");
 const Cart = require("../models/Cart");
-const verifyUser = require("../authMiddleware");
+const { verifyUser } = require("../authMiddleware");
 
 const router = express.Router();
 
@@ -32,6 +32,12 @@ router.get("/", verifyUser, async (req, res) => {
   const cart = await Cart.find({ userId: req.user.uid });
   console.log("Fetched cart:", cart.length, "items");
   res.json(cart);
+});
+
+// delete cart item
+router.delete("/:id", verifyUser, async (req, res) => {
+  await Cart.findByIdAndDelete(req.params.id);
+  res.json({ message: "Item removed" });
 });
 
 module.exports = router;

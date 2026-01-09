@@ -148,9 +148,28 @@
             button.classList.add('active');
         }
     </script>
-    <script type="module" src="script.js" defer></script>
-    <script>
-const API = "http://localhost:5000";
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBsQNrAnhfzhWSepgMJEr3DbnLIUwHhOP0",
+  authDomain: "localarthub-38ae5.firebaseapp.com",
+  projectId: "localarthub-38ae5",
+  storageBucket: "localarthub-38ae5.firebasestorage.app",   
+  messagingSenderId: "741966380978",
+  appId: "1:741966380978:web:d94d5516d308b799c1eeab",
+  measurementId: "G-Y7F4HQQ3ZX"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 // ---------- LOGIN ----------
 document.getElementById("Existing-Signin").addEventListener("click", async () => {
@@ -158,32 +177,25 @@ document.getElementById("Existing-Signin").addEventListener("click", async () =>
   const password = document.getElementById("signin-password").value;
 
   try {
-    const res = await fetch(`${API}/api/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await res.json();
-    console.log(data);
-
-    if (!res.ok) {
-      alert(data.message || "Login failed");
-      return;
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    
+    // Get ID token result to check custom claims
+    const idTokenResult = await userCredential.user.getIdTokenResult();
+    const isSeller = idTokenResult.claims.seller === true;
+    const isAdmin = idTokenResult.claims.admin === true;
+    
+    alert("Sign in successful!");
+    
+    // Redirect based on role
+    if (isSeller || isAdmin) {
+      window.location.href = "seller-dashboard.html";
+    } else {
+      window.location.href = "main.html";
     }
-
-    // SAVE TOKEN
-    localStorage.setItem("authToken", data.token);
-
-    alert("Login successful!");
-    window.location.href = "main.html";
-
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong");
+  } catch (error) {
+    alert(error.message);
   }
 });
-
 
 // ---------- REGISTER ----------
 document.getElementById("Register-New").addEventListener("click", async () => {
@@ -191,26 +203,11 @@ document.getElementById("Register-New").addEventListener("click", async () => {
   const password = document.getElementById("register-password").value;
 
   try {
-    const res = await fetch(`${API}/api/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await res.json();
-    console.log(data);
-
-    if (!res.ok) {
-      alert(data.message || "Registration failed");
-      return;
-    }
-
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     alert("Account created — you can now sign in");
-    switchTab("signin", document.querySelector(".tab-button"));
-  } 
-  catch (err) {
-    console.error(err);
-    alert("Something went wrong");
+    document.querySelector(".tab-button").click();
+  } catch (error) {
+    alert(error.message);
   }
 });
 </script>

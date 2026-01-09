@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Orders - LocalArtHub</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="script.js" defer></script>
+
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .orders-section {
+            margin-bottom: 40px;
+        }
+
+        .order-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+        }
+
+        .order-card h3 {
+            margin: 0 0 10px 0;
+            color: #8b4513;
+        }
+
+        .order-items {
+            margin: 15px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .order-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-actions {
+            margin-top: 10px;
+        }
+
+        .order-actions button {
+            padding: 8px 12px;
+            margin-right: 10px;
+            background: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .order-actions button:hover {
+            background: #704010;
+        }
+
+        .order-status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+
+</head>
+
+<body>
+    <section id="header">
+        <a href="seller-dashboard.html"><img src="./images/LocalArtHub logo.png" class="logo" alt="" style="width: 30px;height: 30px;"></a>
+
+        <div>
+            <ul id="navbar">
+                <li><a href="seller-dashboard.html">Dashboard</a></li>
+                <li><a href="admin.html">Products</a></li>
+                <li><a class="active" href="seller-orders.html">Orders</a></li>
+                <li><a href="contactus.html">Contact</a></li>
+                <a href="#" id="close"><i class="fas fa-times"></i></a>
+            </ul>
+        </div>
+
+        <div id="right-nav">
+            <a id="login-btn" href="signin.html">Login</a>
+        </div>
+        <div id="mobile">
+            <i id="bar" class="fas fa-bars"></i>
+        </div>
+    </section>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Your Orders</h1>
+            <p>Manage orders for products you've sold</p>
+        </div>
+
+        <div class="orders-section">
+            <div id="orders-list">
+                <div class="no-orders">
+                    <p>Loading orders...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="img/LocalArtHub1.jpg" alt="">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Kathmandu, Nepal</p>
+            <p><strong>Phone:</strong> +977 9834567890</p>
+            <p><strong>Hours:</strong> 10:00 AM - 6:00 PM, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <a href="https://www.facebook.com" target="_blank" title="Visit our Facebook page"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.twitter.com" target="_blank" title="Visit our Twitter page"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com" target="_blank" title="Visit our Instagram page"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.pinterest.com" target="_blank" title="Visit our Pinterest page"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="https://www.youtube.com" target="_blank" title="Visit our Youtube page"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="aboutus.html">About us</a>
+            <a href="delivery.html">Delivery Information</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="termsandcondition.html">Terms & Conditions</a>
+            <a href="contactus.html">Contact Us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="signin.html">Sign In</a>
+            <a href="viewcart.html">View Cart</a>
+            <a href="wishlist.html">My Wishlist</a>
+            <a href="track.html">Track My Order</a>
+            <a href="contactus.html">Help</a>
+        </div>
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="img/pay/app.jpg" alt="">
+                <img src="img/pay/play.jpg" alt="">
+            </div>
+
+            <p>Secured Payment Gateways</p>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <img src="images/paymentlogo.jpg" alt="Payment Methods" style="width: 40px; height:auto;">
+                <p>Payment</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <img src="images/esewa.png" alt="Esewa" style="width:40px; height:auto;">
+                <p>Esewa</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <img src="images/imekhalti.png" alt="Imepay" style="width: 40px; height:auto;">
+                <p>ImePay</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <img src="images/phonepay.jpeg" alt="PhonePay" style="width: 40px; height:auto;">
+                <p>Phonepay</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024, LocalArtHub - All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <div id="logout-modal" class="modal">
+        <div class="modal-content">
+            <h3>Account</h3>
+            <p>Do you want to logout?</p>
+            <div class="modal-buttons">
+                <button id="cancel-logout">Cancel</button>
+                <button id="confirm-logout">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBsQNrAnhfzhWSepgMJEr3DbnLIUwHhOP0",
+  authDomain: "localarthub-38ae5.firebaseapp.com",
+  projectId: "localarthub-38ae5",
+  storageBucket: "localarthub-38ae5.firebasestorage.app",
+  messagingSenderId: "741966380978",
+  appId: "1:741966380978:web:d94d5516d308b799c1eeab",
+  measurementId: "G-Y7F4HQQ3ZX"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("authToken");
+            const loginBtn = document.getElementById("login-btn");
+            const modal = document.getElementById("logout-modal");
+            const cancelBtn = document.getElementById("cancel-logout");
+            const logoutBtn = document.getElementById("confirm-logout");
+
+            if (token && loginBtn) {
+                loginBtn.innerHTML = `
+                <img 
+                    src="https://cdn-icons-png.flaticon.com/512/9131/9131478.png" 
+                    alt="User" 
+                    style="width:24px; height:24px; border-radius:50%;"
+                >
+                `;
+                loginBtn.href = "#";
+
+                loginBtn.addEventListener("click", () => {
+                    modal.style.display = "flex";
+                });
+
+                cancelBtn.addEventListener("click", () => {
+                    modal.style.display = "none";
+                });
+
+                logoutBtn.addEventListener("click", async () => {
+                    try {
+                        await signOut(auth);
+                        localStorage.removeItem("authToken");
+                        modal.style.display = "none";
+                        window.location.href = "main.html";
+                    } catch (e) {
+                        console.error("Logout error:", e);
+                        localStorage.removeItem("authToken");
+                        window.location.href = "main.html";
+                    }
+                });
+            }
+
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+        });
+
+        // Load seller orders
+        async function loadSellerOrders() {
+            const token = localStorage.getItem("authToken");
+            if (!token) {
+                window.location.href = "signin.html";
+                return;
+            }
+
+            try {
+                const res = await fetch("http://localhost:5000/api/orders", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (!res.ok) {
+                    alert("Failed to load orders");
+                    return;
+                }
+
+                const orders = await res.json();
+                renderSellerOrders(orders);
+            } catch (e) {
+                console.error("Error loading orders:", e);
+                document.getElementById("orders-list").innerHTML = "<div class='no-orders'><p>Failed to load orders</p></div>";
+            }
+        }
+
+        function renderSellerOrders(orders) {
+            const container = document.getElementById("orders-list");
+
+            if (!orders || orders.length === 0) {
+                container.innerHTML = "<div class='no-orders'><p>No orders found</p></div>";
+                return;
+            }
+
+            container.innerHTML = "";
+
+            orders.forEach(order => {
+                const statusClass = `status-${order.status}`;
+                const itemsHtml = order.items.map(item => `
+                    <div class="order-item">
+                        <strong>Product ID:</strong> ${item.productId} | <strong>Qty:</strong> ${item.qty}
+                    </div>
+                `).join("");
+
+                container.innerHTML += `
+                    <div class="order-card">
+                        <h3>Order ID: ${order._id}</h3>
+                        <p><strong>Customer ID:</strong> ${order.userId}</p>
+                        <p><strong>Total:</strong> Rs. ${order.total}</p>
+                        <div class="order-status ${statusClass}">${order.status.toUpperCase()}</div>
+                        
+                        <div class="order-items">
+                            <strong>Items:</strong>
+                            ${itemsHtml}
+                        </div>
+
+                        <div class="order-actions">
+                            ${order.status !== 'cancelled' ? `<button onclick="cancelOrder('${order._id}')">Cancel Order</button>` : '<p>Order is cancelled</p>'}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        async function cancelOrder(orderId) {
+            if (!confirm("Are you sure you want to cancel this order?")) return;
+
+            const token = localStorage.getItem("authToken");
+            try {
+                const res = await fetch(`http://localhost:5000/api/orders/${orderId}/cancel`, {
+                    method: "PUT",
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (res.ok) {
+                    alert("Order cancelled successfully");
+                    loadSellerOrders();
+                } else {
+                    alert("Failed to cancel order");
+                }
+            } catch (e) {
+                alert("Error cancelling order");
+            }
+        }
+
+        // Expose to window for onclick handlers
+        window.cancelOrder = cancelOrder;
+
+        // Load orders on page load
+        loadSellerOrders();
+    </script>
+</body>
+
+</html>

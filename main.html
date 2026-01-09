@@ -11,6 +11,49 @@
         <script type="module" src="script.js" defer></script>
         <!-- <script type="module" src="signin.html" defer></script> -->
         
+
+        <style>
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.modal-buttons button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#cancel-logout {
+  background: #ddd;
+}
+
+#confirm-logout {
+  background: #8b4513;
+  color: white;
+}
+</style>
+
     </head>
  
     <body>
@@ -21,17 +64,13 @@
                 <ul id="navbar">
                     <li><a class="active" href="#">Home</a></li>
                     <li><a href="shop.html" >Shop</a></li>
-                    <li><a href="#" >Blog</a></li>
+                    <!-- <li><a href="#" >Blog</a></li> -->
                     <li><a href="admin.html">Admin</a></li>
                     <li><a href="aboutus.html" >About</a></li>
                     <li><a href="contactus.html" >Contact</a></li>
                     <a href="#" id="close"><i class="fas fa-times"></i></a> 
                 </ul>
             </div>
-            <section id="home-cart">
-  <h2>Your Cart</h2>
-  <div id="cart-list"></div>
-</section>
 
             <div id="right-nav">
                 <a id="lg-bag" href="viewcart.html"><i class="far fa-shopping-cart"></i></a>
@@ -111,135 +150,8 @@
          <section id="product1" class="section-p1">
            <h2>Featured Products</h2>
            <p>Handpicked collection of unique art pieces</p>
-        <div class="pro-container"> 
-            <div class="pro">
-                <img src="./images/Vase.jpg" alt="Handcrafted Ceramic Vase">
-                <div class="des">
-                    <span>Vase</span>
-                    <h5>Handcrafted Ceramic Vase</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 1200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro" display="inline-block">
-                <img src="./images/mithilaart.jpg" alt="Mithila Painting">
-                <div class="des" display="inline-block">
-                    <span>Painting</span>
-                    <h5>Mithila Painting</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 2500</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/pashmina.jpg" alt="Pashmina Shawl">
-                <div class="des">
-                    <span>Textile</span>
-                     <h5>Pashmina Shawl</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 4200</h4 >
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/nepalipainting.jpg" alt="Nepali Painting">
-                <div class="des">
-                    <span>Painting</span>
-                    <h5>local Painting</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 2200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/khukuri.jpg" alt="Traditional Khukuri">
-                <div class="des">
-                    <span>Weapon</span>
-                    <h5>Traditional Khukuri</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 5200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/woodsculpture.jpg" alt="Handcrafted Woodwork">
-                <div class="des">
-                    <span>Woodwork</span>
-                    <h5>Handcrafted Woodwork</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/Dhakatopi.jpg" alt="Handcrafted Dhaka Topi">
-                <div class="des">
-                    <span>Textile</span>
-                    <h5>Handcrafted Dhaka Topi</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 1200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/ceramicvase.jpg" alt="Handcrafted Ceramic Vase">
-                <div class="des">
-                    <span>Vase</span>
-                    <h5>Handcrafted Ceramic Vase</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 1500</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
+        <div class="pro-container" id="featured-products"> 
+           
         </div>
         </section>
 
@@ -255,137 +167,9 @@
         <section id="product1" class="section-p1">
            <h2>New Arrivals</h2>
            <p>Handpicked collection of unique art pieces</p>
-        <div class="pro-container">
-            <div class="pro">
-                <img src="./images/ceramicvase.jpg" alt="Handcrafted Ceramic Vase">
-                <div class="des">
-                    <span>Vase</span>
-                    <h5>Handcrafted Ceramic Vase</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 1200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/mithilaart.jpg" alt="Mithila Painting">
-                <div class="des">
-                    <span>Painting</span>
-                    <h5>Mithila Painting</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 2500</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/pashmina.jpg" alt="Pashmina Shawl">
-                <div class="des">
-                    <span>Textile</span>
-                    <h5>Pashmina Shawl</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 4200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/nepalipainting.jpg" alt="Local Painting">
-                <div class="des">
-                    <span>Painting</span>
-                    <h5>local Painting</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 2200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/khukuri.jpg" alt="Traditional Khukuri">
-                <div class="des">
-                    <span>Weapon</span>
-                    <h5>Traditional Khukuri</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 5200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/woodsculpture.jpg" alt="Handcrafted Woodwork">
-                <div class="des">
-                    <span>Woodwork</span>
-                    <h5>Handcrafted Woodwork</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+        <div class="pro-container" id="shop-products">
+           
             </div>
-                          
-             <div class="pro">
-                <img src="./images/Dhakatopi.jpg" alt="Handcrafted Dhaka Topi">
-                <div class="des">
-                    <span>Textile</span>
-                    <h5>Handcrafted Dhaka Topi</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 1200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="./images/ceramicvase.jpg" alt="Handcrafted Ceramic Vase">
-                <div class="des">
-                    <span>Vase</span>
-                    <h5>Handcrafted Ceramic Vase</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 1500</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-        </div>
         </section>
 
 
@@ -496,6 +280,20 @@
             </div>
         </footer>
         
+        <!-- LOGOUT MODAL -->
+<div id="logout-modal" class="modal">
+  <div class="modal-content">
+    <h3>Account</h3>
+    <p>Do you want to logout?</p>
+
+    <div class="modal-buttons">
+            <button id="cancel-logout">Cancel</button>
+            <button id="become-seller">Become Seller</button>
+            <button id="confirm-logout">Logout</button>
+    </div>
+  </div>
+</div>
+
        
         <script src="script.js"></script>
 
@@ -517,6 +315,85 @@
         }
     });
 </script> -->
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Small delay to ensure Firebase auth state listener in script.js has completed
+  setTimeout(() => {
+    const token = localStorage.getItem("authToken");
+    const loginBtn = document.getElementById("login-btn");
+
+    const modal = document.getElementById("logout-modal");
+    const cancelBtn = document.getElementById("cancel-logout");
+    const logoutBtn = document.getElementById("confirm-logout");
+      const becomeSellerBtn = document.getElementById("become-seller");
+
+    if (token && loginBtn) {
+
+      loginBtn.innerHTML = `
+        <img 
+          src="https://cdn-icons-png.flaticon.com/512/9131/9131478.png" 
+          alt="User" 
+          style="width:24px; height:24px; border-radius:50%;"
+        >
+      `;
+      loginBtn.href = "#";
+
+      // open modal when clicking icon
+      loginBtn.addEventListener("click", () => {
+        modal.style.display = "flex";
+      });
+
+      // close modal
+      cancelBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+
+      // logout confirmed
+      logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("authToken");
+        modal.style.display = "none";
+        window.location.reload();
+      });
+
+          // become seller
+          if (becomeSellerBtn) {
+              becomeSellerBtn.addEventListener('click', async () => {
+                  if (!token) {
+                      alert('Please login first');
+                      return;
+                  }
+                  try {
+                      const res = await fetch('http://localhost:5000/api/users/become-seller', {
+                          method: 'POST',
+                          headers: { Authorization: `Bearer ${token}` }
+                      });
+                      const data = await res.json();
+                      if (res.ok) {
+                          alert(data.message || 'Seller role granted. Please sign out and sign in again.');
+                          modal.style.display = 'none';
+                      } else {
+                          alert(data.message || 'Failed to become seller');
+                      }
+                  } catch (e) {
+                      alert('Request failed');
+                  }
+              });
+          }
+    }
+
+    // close if clicking outside modal box
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  }, 200);
+
+});
+</script>
+
+
 
     </body>
 
