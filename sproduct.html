@@ -8,136 +8,95 @@
         <title>LocalArtHub</title>
          <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
         <link rel="stylesheet" href="style.css">
+        <script type="module" src="script.js" defer></script>
+
+        <style>
+.single-pro-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#prev-image-btn {
+  left: 10px;
+}
+
+#next-image-btn {
+  right: 10px;
+}
+</style>
+
     </head>
 
     <body>
         <section id="header">
-            <a href="#"><img src="img/LocalArtHub1.jpg" class="logo" alt=""></a>
+            <a href="main.html"><img src="./images/LocalArtHub logo.png" class="logo" alt="" style="width: 30px;height: 30px;"></a>
             
             <div>
                 <ul id="navbar">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a class="active" href="shop.html">Shop</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-cart"></i></a></li>
-                    <a href="#" id="close"><i class="fas fa-times"></i></a>
+                    <li><a href="main.html">Home</a></li>
+                    <li><a href="shop.html" class="active">Shop</a></li>
+                    <!-- <li><a href="blog.html">Blog</a></li> -->
+                    <!-- <li><a href="aboutus.html">About</a></li> -->
+                     <li><a href="user-orders.html">My Orders</a></li>
+                    <li><a href="contactus.html">Contact</a></li>
+                    <a href="#" id="close"><i class="fas fa-times"></i></a> 
                 </ul>
             </div>
+            <div id="right-nav">
+                <a id="lg-bag" href="viewcart.html"><i class="far fa-shopping-cart"></i></a>
+                <a id="login-btn" href="signin.html">Login</a>
+            </div>
             <div id="mobile">
-                <a href="cart.html"><i class="far fa-shopping-cart"></i></a>
+                <a href="viewcart.html"><i class="far fa-shopping-cart"></i></a>
                 <i id="bar" class="fas fa-bars"></i>
             </div>
         </section>
 
         <section id="prodetails" class="section-p1">
             <div class="single-pro-image">
-                <img src="img/products/f1.jpg" width="100%" id="MainImg" alt="">
-            <div class="small-img-group">
-                <div class="small-img-col">
-                    <img src="img/products/f1.jpg" width="100%" class="small-img" alt="">
-                </div>
-                <div class="small-img-col">
-                    <img src="img/products/f2.jpg" width="100%" class="small-img" alt="">
-                </div>
-                <div class="small-img-col">
-                    <img src="img/products/f3.jpg" width="100%" class="small-img" alt="">
-                </div>
-                <div class="small-img-col">
-                    <img src="img/products/f4.jpg" width="100%" class="small-img" alt="">
-                </div>
+                <button id="prev-image-btn" class="arrow-btn">&lt;</button>
+                <img src="" width="100%" id="MainImg" alt="">
+                <button id="next-image-btn" class="arrow-btn">&gt;</button>
             </div>
-            </div>
-        </div>
 
-            <div class="single-pro-details">
+            <div id="gallery-images" style="display: flex; gap: 10px; margin-top: 10px;"></div>
+
+            <div class="single-pro-details" id="product-details">
                 <h6>Home / Art</h6>
-                <h4>Handcrafted Wooden Sculpture</h4>
-                <h2>Rs. 1200</h2>
-                <select>
-                    <option>Select Size</option>
-                    <option>Small</option>
-                    <option>Medium</option>
-                    <option>Large</option>
-                    <option>XL</option>
-                    <option>XXL</option>
-                </select>
-                <input type="number" value="1">
-                <button class="normal">Add to Cart</button>
+                <h4 id="product-title">Loading...</h4>
+                <h2 id="product-price">Rs. 0</h2>
+                <p><strong>Stock:</strong> <span id="product-stock">0</span></p>
+                <p><strong>Category:</strong> <span id="product-category">N/A</span></p>
+                <p><strong>Subcategory:</strong> <span id="product-subcategory">N/A</span></p>
+                <p><strong>Era:</strong> <span id="product-era">N/A</span></p>
+                <p><strong>Seller:</strong> <span id="product-seller">N/A</span></p>
+                <input type="number" value="1" id="quantity">
+                <button class="normal" id="add-to-cart-btn">Add to Cart</button>
                 <h4>Product Details</h4>
-                <span>This handcrafted wooden sculpture is a testament to the skill and creativity of local artisans. Made from sustainably sourced wood, it features intricate carvings and a smooth finish, making it a perfect addition to any home decor. Each piece is unique, reflecting the individual style of the artist.</span>
+                <span id="product-description">Loading...</span>
             </div>
         </section>
 
         <section id="product1" class="section-p1">
-           <h2>Featured Products</h2>
-           <p>Handpicked collection of unique art pieces</p>
-        <div class="pro-container">
-            <div class="pro">
-                <img src="img/products/f1.jpg" alt="">
-                <div class="des">
-                    <span>Vase</span>
-                    <h5>Handcrafted Ceramic Vase</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 1200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="img/products/f2.jpg" alt="">
-                <div class="des">
-                    <span>Painting</span>
-                    <h5>Mithila Painting</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 2500</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="img/products/f3.jpg" alt="">
-                <div class="des">
-                    <span>Textile</span>
-                    <h5>Pashmina Shawl</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 4200</h4 >
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
-             <div class="pro">
-                <img src="img/products/f4.jpg" alt="">
-                <div class="des">
-                    <span>Painting</span>
-                    <h5>local Painting</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h4>Rs. 2200</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div> 
+           <h2>You May Like</h2>
+           <p>Other products you might be interested in</p>
+        <div class="pro-container" id="you-may-like">
+           
         </div>
         </section>
 
@@ -154,7 +113,7 @@
 
         <footer class="section-p1">
             <div class="col">
-                <img class="logo" src="img/LocalArtHub1.jpg" alt="">
+                <img class="logo" src="images/LocalArtHub logo.png" alt="">
                 <h4>Contact</h4>
                 <p><strong>Address:</strong> Kathmandu, Nepal</p>
                 <p><strong>Phone:</strong> +977 9834567890</p>
@@ -172,54 +131,224 @@
             </div>
             <div class="col">
                 <h4>About</h4>
-                <a href="#">About us</a>
-                <a href="#">Delivery Information</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms & Conditions</a>
-                <a href="#">Contact Us</a>
+                <a href="aboutus.html">About us</a>
+                <a href="delivery.html">Delivery Information</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="termsandcondition.html">Terms & Conditions</a>
+                <a href="contactus.html">Contact Us</a>
             </div>
             <div class="col">
                 <h4>My Account</h4>
-                <a href="#">Sign In</a>
-                <a href="#">View Cart</a>
-                <a href="#">My Wishlist</a>
-                <a href="#">Track My Order</a>
-                <a href="#">Help</a>
+                <a href="signin.html">Sign In</a>
+                <a href="viewcart.html">View Cart</a>
+                <a href="wishlist.html">My Wishlist</a>
+                <a href="track.html">Track My Order</a>
+                <a href="contactus.html">Help</a>
             </div>
             <div class="col install">
                 <h4>Install App</h4>
                 <p>From App Store or Google Play</p>
                 <div class="row">
-                    <img src="img/pay/app.jpg" alt="">
-                    <img src="img/pay/play.jpg" alt="">
+                    <img src="#" alt="">
+                    <img src="#" alt="">
                 </div>
                 <p>Secured Payment Gateways</p>
-                <img src="img/pay/pay.png" alt="">
+                <img src="#" alt="">
             </div>
             <div class="copyright">
                 <p>&copy; 2024, LocalArtHub - All Rights Reserved</p>
             </div>
         </footer>
 
-        <script>
-            var MainImg = document.getElementById("MainImg");
-            var smallimg = document.getElementsByClassName("small-img");
+        <div id="logout-modal" class="modal">
+  <div class="modal-content">
+    <h3>Account</h3>
+    <p>Do you want to logout?</p>
 
-            smallimg[0].onclick = function(){
-                MainImg.src = smallimg[0].src;
-            }
-            smallimg[1].onclick = function(){
-                MainImg.src = smallimg[1].src;
-            }
-            smallimg[2].onclick = function(){
-                MainImg.src = smallimg[2].src;
-            }
-            smallimg[3].onclick = function(){
-                MainImg.src = smallimg[3].src;
-            }
-        </script>
+    <div class="modal-buttons">
+      <button id="cancel-logout">Cancel</button>
+      <button id="confirm-logout">Logout</button>
+    </div>
+  </div>
+</div>
 
-        <script src="script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const token = localStorage.getItem("authToken");
+  const loginBtn = document.getElementById("login-btn");
+
+  const modal = document.getElementById("logout-modal");
+  const cancelBtn = document.getElementById("cancel-logout");
+  const logoutBtn = document.getElementById("confirm-logout");
+
+  if (token && loginBtn) {
+
+    loginBtn.innerHTML = `
+      <img 
+        src="https://cdn-icons-png.flaticon.com/512/9131/9131478.png" 
+        alt="User" 
+        style="width:24px; height:24px; border-radius:50%;"
+      >
+    `;
+    loginBtn.href = "#";
+
+    // open modal when clicking icon
+    loginBtn.addEventListener("click", () => {
+      modal.style.display = "flex";
+    });
+
+    // close modal
+    cancelBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    // logout confirmed
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("authToken");
+      modal.style.display = "none";
+      window.location.reload();
+    });
+  }
+
+  // close if clicking outside modal box
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('productId');
+
+  if (!productId) {
+    alert('No product ID provided');
+    window.location.href = 'shop.html';
+    return;
+  }
+
+  const token = localStorage.getItem("authToken");
+
+  try {
+    // Load product details
+    const res = await fetch(`http://localhost:5000/api/products/${productId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const product = await res.json();
+
+    if (!res.ok) throw new Error(product.message || 'Failed to load product');
+
+    // Handle images - assume it's an array, if string convert to array
+    let images = product.images;
+    if (typeof images === 'string') {
+      images = [images];
+    } else if (!Array.isArray(images)) {
+      images = [];
+    }
+    // Remove duplicates
+    images = [...new Set(images)];
+    if (images.length === 0) {
+      images = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2NjYyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjMDAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==']; // Placeholder SVG
+    }
+
+    let currentImageIndex = 0;
+    const imageSrc = getImageSrc(images[currentImageIndex]);
+    document.getElementById('MainImg').src = imageSrc;
+    document.getElementById('product-title').textContent = product.title;
+    document.getElementById('product-price').textContent = `Rs. ${product.price}`;
+    document.getElementById('product-stock').textContent = product.stock;
+    document.getElementById('product-category').textContent = product.category || 'N/A';
+    document.getElementById('product-subcategory').textContent = product.subcategory || 'N/A';
+    document.getElementById('product-era').textContent = product.era || 'N/A';
+    document.getElementById('product-description').textContent = product.description || 'No description';
+
+    // Populate gallery
+    const galleryContainer = document.getElementById('gallery-images');
+    galleryContainer.innerHTML = images.slice(1).map((img, index) => {
+      const imgSrc = getImageSrc(img);
+      return `<img src="${imgSrc}" alt="${product.title}" style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;" onclick="document.getElementById('MainImg').src='${imgSrc}'; window.currentImageIndex=${index + 1};">`;
+    }).join('');
+
+    // Load seller info
+    if (product.sellerId) {
+      try {
+        const sellerRes = await fetch(`http://localhost:5000/api/users/${product.sellerId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const seller = await sellerRes.json();
+        document.getElementById('product-seller').textContent = `${seller.displayName} (${seller.email})`;
+      } catch (error) {
+        document.getElementById('product-seller').textContent = 'Unknown Seller';
+      }
+    } else {
+      document.getElementById('product-seller').textContent = 'Unknown Seller';
+    }
+
+    // Add to cart button
+    document.getElementById('add-to-cart-btn').onclick = () => addToCart(productId);
+
+    // Image navigation
+    document.getElementById('prev-image-btn').onclick = () => {
+      currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+      const imageSrc = getImageSrc(images[currentImageIndex]);
+      document.getElementById('MainImg').src = imageSrc;
+    };
+
+    document.getElementById('next-image-btn').onclick = () => {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      const imageSrc = getImageSrc(images[currentImageIndex]);
+      document.getElementById('MainImg').src = imageSrc;
+    };
+
+  } catch (error) {
+    console.error('Error loading product:', error);
+    alert('Failed to load product details: ' + error.message);
+  }
+
+  // Load you may like products
+  try {
+    const res = await fetch('http://localhost:5000/api/products', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const products = await res.json();
+
+    if (res.ok) {
+      const container = document.getElementById('you-may-like');
+      const otherProducts = products.filter(p => p._id !== productId).slice(0, 4); // Exclude current, take 4
+
+      container.innerHTML = otherProducts.map(product => {
+        const imageSrc = getImageSrc(product.images && product.images[0]);
+        return `
+        <div class="pro" onclick="window.location.href='sproduct.html?productId=${product._id}'">
+          <img src="${imageSrc}" alt="${product.title}">
+          <div class="des">
+            <span>${product.category || 'Art'}</span>
+            <h5>${product.title}</h5>
+            <div class="star">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h4>Rs. ${product.price}</h4>
+          </div>
+          <a href="#" onclick="event.stopPropagation(); addToCart('${product._id}')"><i class="fal fa-shopping-cart cart"></i></a>
+        </div>
+      `}).join('');
+    }
+  } catch (error) {
+    console.error('Error loading related products:', error);
+  }
+});
+
+</script>
+
     </body>
 
 </html>

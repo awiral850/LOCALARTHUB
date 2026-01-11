@@ -71,6 +71,16 @@
         .product-actions button {
             margin-right: 10px;
         }
+        .sellers-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .seller-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+        }
     </style>
     <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
@@ -147,7 +157,19 @@ onAuthStateChanged(auth, async (user) => {
                     <input id="pprice" placeholder="Price">
                 </div>
                 <div class="form-group">
-                    <input id="pimage" placeholder="Image URL">
+                    <label>Image Source:</label>
+                    <div>
+                        <input type="radio" id="image-url-radio" name="image-source" value="url" checked>
+                        <label for="image-url-radio">Image URL</label>
+                        <input type="radio" id="image-upload-radio" name="image-source" value="upload">
+                        <label for="image-upload-radio">Upload Image</label>
+                    </div>
+                </div>
+                <div class="form-group" id="url-group">
+                    <input id="pimage" placeholder="Image URL" type="url">
+                </div>
+                <div class="form-group" id="upload-group" style="display: none;">
+                    <input type="file" id="pimagefile" accept="image/*">
                 </div>
                 <div class="form-group">
                     <input id="stock" placeholder="Stock">
@@ -171,6 +193,7 @@ onAuthStateChanged(auth, async (user) => {
                         <option value="18th Century">18th Century</option>
                         <option value="Mid-Century">Mid-Century</option>
                         <option value="Victorian">Victorian</option>
+                        <option value="Modern">Modern</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -192,8 +215,21 @@ onAuthStateChanged(auth, async (user) => {
                     <input type="number" id="edit-price" step="0.01" required>
                 </div>
                 <div class="form-group">
+                    <label>Image Source:</label>
+                    <div>
+                        <input type="radio" id="edit-image-url-radio" name="edit-image-source" value="url" checked>
+                        <label for="edit-image-url-radio">Image URL</label>
+                        <input type="radio" id="edit-image-upload-radio" name="edit-image-source" value="upload">
+                        <label for="edit-image-upload-radio">Upload Image</label>
+                    </div>
+                </div>
+                <div class="form-group" id="edit-url-group">
                     <label for="edit-image">Image URL:</label>
-                    <input type="url" id="edit-image" required>
+                    <input type="url" id="edit-image">
+                </div>
+                <div class="form-group" id="edit-upload-group" style="display: none;">
+                    <label for="edit-imagefile">Upload Image:</label>
+                    <input type="file" id="edit-imagefile" accept="image/*">
                 </div>
                 <div class="form-group">
                     <label for="edit-stock">Stock:</label>
@@ -221,6 +257,7 @@ onAuthStateChanged(auth, async (user) => {
                         <option value="18th Century">18th Century</option>
                         <option value="Mid-Century">Mid-Century</option>
                         <option value="Victorian">Victorian</option>
+                        <option value="Modern">Modern</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -239,7 +276,60 @@ onAuthStateChanged(auth, async (user) => {
             </div>
         </div>
 
+        <div class="sellers-section" id="sellers-section" style="display: none;">
+            <h4>Current Sellers</h4>
+            <div class="sellers-list">
+                <!-- Sellers will be loaded here -->
+            </div>
+        </div>
+
     <script type="module" src="script.js"></script>
+    
+    <script>
+        // Toggle image source for add form
+        document.getElementById('image-url-radio').addEventListener('change', function() {
+            document.getElementById('url-group').style.display = 'block';
+            document.getElementById('upload-group').style.display = 'none';
+        });
+        document.getElementById('image-upload-radio').addEventListener('change', function() {
+            document.getElementById('url-group').style.display = 'none';
+            document.getElementById('upload-group').style.display = 'block';
+        });
+
+        // Toggle for edit form
+        document.getElementById('edit-image-url-radio').addEventListener('change', function() {
+            document.getElementById('edit-url-group').style.display = 'block';
+            document.getElementById('edit-upload-group').style.display = 'none';
+        });
+        document.getElementById('edit-image-upload-radio').addEventListener('change', function() {
+            document.getElementById('edit-url-group').style.display = 'none';
+            document.getElementById('edit-upload-group').style.display = 'block';
+        });
+
+        // Check if master admin
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            fetch('http://localhost:5000/api/users/sellers', {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then(res => res.json())
+            .then(sellers => {
+                if (sellers.length > 0) {
+                    document.getElementById('sellers-section').style.display = 'block';
+                    const container = document.querySelector('.sellers-list');
+                    container.innerHTML = sellers.map(seller => `
+                        <div class="seller-card">
+                            <h3>${seller.displayName}</h3>
+                            <p>Email: ${seller.email}</p>
+                            <p>Products Sold: Loading...</p>
+                        </div>
+                    `).join('');
+                    // For products sold, need to fetch orders or something
+                }
+            })
+            .catch(err => console.error('Error loading sellers:', err));
+        }
+    </script>
     
 </body>
 </html>

@@ -40,6 +40,9 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
+// Global variable for products
+let allProducts = [];
+
 //script.js to capture Firebase token
 import { onAuthStateChanged, getIdToken, signOut } 
 from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
@@ -147,51 +150,6 @@ function updateLoginUI(user) {
   }
 }
 
-// Get input elements
-// const email = document.getElementById('signin-email').value;
-// const password = document.getElementById('signin-password').value;
-// const name = document.getElementById('register-name').value;
-// const RegEmail = document.getElementById('register-email').value;
-// const RegPass = document.getElementById('register-password').value;
-// const RegPassConf = document.getElementById('register-confirm-password').value;
-
-// Submit button
-// const submitSignin = document.getElementById('Existing-Signin');
-// submitSignin.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   const email = document.getElementById('signin-email').value;
-// const password = document.getElementById('signin-password').value;
-//   createUserWithEmailAndPassword(auth, email, password)
-//     .then((userCredential) => {
-//       const user = userCredential.user;
-//     })
-//     .catch((error) => {
-//       const errorCode = error.code;
-//       const errorMessage = error.message;
-//       alert(errorMessage);
-//     });
-// });
-// const submitRegister = document.getElementById('Register-New');
-// submitRegister.addEventListener("click", (e) => { 
-//   e.preventDefault();
-//   // const auth = getAuth();
-//   // const name = document.getElementById('register-name').value;
-// const email = document.getElementById('register-email').value;
-// const password = document.getElementById('register-password').value;
-// // const RegPassConf = document.getElementById('register-confirm-password').value;
-  
-// signInWithEmailAndPassword(auth,email,password)
-//   .then((userCredential) => {
-    
-//     const user = userCredential.user;
-    
-//   })
-//   .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//   });
-// });
-// submit button
 
 // SIGN IN button
 const submitSignin = document.getElementById('Existing-Signin');
@@ -275,25 +233,34 @@ async function addProduct() {
     return;
   }
 
-  const product = {
-    title: document.getElementById("pname").value,
-    price: Number(document.getElementById("pprice").value),
-    image: document.getElementById("pimage").value,
-    stock: Number(document.getElementById("stock").value) || 0,
-    category: document.getElementById("pcategory").value,
-    subcategory: document.getElementById("psubcategory").value,
-    era: document.getElementById("pera").value,
-    description: document.getElementById("pdescription").value || "Local artisan product"
-  };
+  const isUpload = document.getElementById('image-upload-radio').checked;
+  const formData = new FormData();
+  formData.append('title', document.getElementById("pname").value);
+  formData.append('price', document.getElementById("pprice").value);
+  formData.append('stock', document.getElementById("stock").value || 0);
+  formData.append('category', document.getElementById("pcategory").value);
+  formData.append('subcategory', document.getElementById("psubcategory").value);
+  formData.append('era', document.getElementById("pera").value);
+  formData.append('description', document.getElementById("pdescription").value || "Local artisan product");
 
+  if (isUpload) {
+    const file = document.getElementById('pimagefile').files[0];
+    if (file) {
+      formData.append('image', file);
+    } else {
+      alert("Please select a file");
+      return;
+    }
+  } else {
+    formData.append('image', document.getElementById("pimage").value);
+  }
 
   const response = await fetch("http://localhost:5000/api/products", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify(product)
+    body: formData
   });
 
   if (response.ok) {
@@ -302,6 +269,7 @@ async function addProduct() {
     document.getElementById("pname").value = "";
     document.getElementById("pprice").value = "";
     document.getElementById("pimage").value = "";
+    document.getElementById("pimagefile").value = "";
     document.getElementById("stock").value = "";
     document.getElementById("pcategory").value = "";
     document.getElementById("psubcategory").value = "";
@@ -359,8 +327,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Store all products globally for filtering
 
-// Store all products globally for filtering
-let allProducts = [];
+// Helper function to get correct image src
+function getImageSrc(imagePath) {
+  if (!imagePath || imagePath === 'undefined') return 'images/ceramicvase.jpg';
+  if (imagePath.startsWith('http')) return imagePath;
+  // Ensure path starts with /
+  if (!imagePath.startsWith('/')) imagePath = '/' + imagePath;
+  return 'http://localhost:5000' + imagePath;
+}
+
+// Make it global for non-module usage
+window.getImageSrc = getImageSrc;
 
 async function loadProducts(containerId) {
   const token = localStorage.getItem("authToken");
@@ -381,6 +358,8 @@ async function loadProducts(containerId) {
   }
 }
 
+//display products from backend
+
 function renderProducts(containerId, products) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -388,9 +367,10 @@ function renderProducts(containerId, products) {
   container.innerHTML = "";
 
   products.forEach(p => {
+    const imageSrc = getImageSrc(p.images && p.images[0]);
     container.innerHTML += `
-      <div class="pro">
-        <img src="${p.image}" alt="${p.title}">
+      <div class="pro" onclick="window.location.href='sproduct.html?productId=${p._id}'">
+        <img src="${imageSrc}" alt="${p.title}">
         <div class="des">
           <span>${p.category || ""}</span>
           <h5>${p.title}</h5>
@@ -403,7 +383,7 @@ function renderProducts(containerId, products) {
           </div>
           <h4>Rs. ${p.price}</h4>
         </div>
-        <a href="#" onclick="addToCart('${p._id}')"><i class="fal fa-shopping-cart cart"></i></a>
+        <a href="#" onclick="event.stopPropagation(); addToCart('${p._id}')"><i class="fal fa-shopping-cart cart"></i></a>
       </div>
     `;
   });
@@ -430,9 +410,11 @@ function renderAdminProducts(products) {
   container.innerHTML = "";
 
   products.forEach(p => {
+    const imageSrc = getImageSrc(p.images && p.images[0]);
+    const imageForEdit = p.images && p.images[0] ? p.images[0] : '';
     container.innerHTML += `
       <div class="product-card">
-        <img src="${p.image}" alt="${p.title}">
+        <img src="${imageSrc}" alt="${p.title}">
         <h3>${p.title}</h3>
         <p>Price: Rs. ${p.price}</p>
         <p>Stock: ${p.stock}</p>
@@ -440,7 +422,7 @@ function renderAdminProducts(products) {
         <p>Subcategory: ${p.subcategory || 'N/A'}</p>
         <p>Era: ${p.era || 'N/A'}</p>
         <div class="product-actions">
-          <button onclick="editProduct('${p._id}', '${p.title}', ${p.price}, '${p.image}', ${p.stock}, '${p.category || ''}', '${p.subcategory || ''}', '${p.era || ''}', '${(p.description || '').replace(/'/g, "\\'")}')">Edit</button>
+          <button onclick="editProduct('${p._id}', '${p.title}', ${p.price}, '${imageForEdit}', ${p.stock}, '${p.category || ''}', '${p.subcategory || ''}', '${p.era || ''}', '${(p.description || '').replace(/'/g, "\\'")}')">Edit</button>
           <button onclick="deleteProduct('${p._id}')">Delete</button>
         </div>
       </div>
@@ -452,7 +434,7 @@ async function editProduct(id, title, price, image, stock, category, subcategory
   document.getElementById("edit-id").value = id;
   document.getElementById("edit-name").value = title;
   document.getElementById("edit-price").value = price;
-  document.getElementById("edit-image").value = image;
+  document.getElementById("edit-image").value = image || '';
   document.getElementById("edit-stock").value = stock;
   document.getElementById("edit-category").value = category || "";
   document.getElementById("edit-subcategory").value = subcategory || "";
@@ -502,24 +484,34 @@ if (editForm) {
     const token = localStorage.getItem("authToken");
     const id = document.getElementById("edit-id").value;
 
-    const product = {
-      title: document.getElementById("edit-name").value,
-      price: Number(document.getElementById("edit-price").value),
-      image: document.getElementById("edit-image").value,
-      stock: Number(document.getElementById("edit-stock").value),
-      category: document.getElementById("edit-category").value,
-      subcategory: document.getElementById("edit-subcategory").value,
-      era: document.getElementById("edit-era").value,
-      description: document.getElementById("edit-description").value
-    };
+    const isUpload = document.getElementById('edit-image-upload-radio').checked;
+    const formData = new FormData();
+    formData.append('title', document.getElementById("edit-name").value);
+    formData.append('price', document.getElementById("edit-price").value);
+    formData.append('stock', document.getElementById("edit-stock").value);
+    formData.append('category', document.getElementById("edit-category").value);
+    formData.append('subcategory', document.getElementById("edit-subcategory").value);
+    formData.append('era', document.getElementById("edit-era").value);
+    formData.append('description', document.getElementById("edit-description").value);
+
+    if (isUpload) {
+      const file = document.getElementById('edit-imagefile').files[0];
+      if (file) {
+        formData.append('image', file);
+      } else {
+        alert("Please select a file");
+        return;
+      }
+    } else {
+      formData.append('image', document.getElementById("edit-image").value);
+    }
 
     const response = await fetch(`http://localhost:5000/api/products/${id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(product)
+      body: formData
     });
 
     if (response.ok) {
@@ -550,6 +542,17 @@ async function addToCart(productId) {
   });
 
   alert("Added to cart!");
+}
+
+async function removeFromCart(cartId) {
+  const token = localStorage.getItem("authToken");
+
+  await fetch(`http://localhost:5000/api/cart/${cartId}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+  loadCart(); // reload the cart
 }
 
 async function loadCart() {
@@ -594,9 +597,10 @@ function renderCart(cart, productMap) {
     const itemTotal = product.price * item.qty;
     total += itemTotal;
 
+    const imageSrc = getImageSrc(product.images && product.images[0]);
     container.innerHTML += `
       <div class="cart-item">
-        <img src="${product.image}" alt="${product.title}" class="cart-item-img">
+        <img src="${imageSrc}" alt="${product.title}" class="cart-item-img">
         <div class="cart-item-details">
           <h4>${product.title}</h4>
           <p>Price: Rs. ${product.price}</p>
@@ -628,23 +632,39 @@ function checkoutAll() {
   window.location.href = "checkout.html";
 }
 
-async function removeFromCart(cartId) {
-  if (!confirm("Remove this item from cart?")) return;
-
+async function viewProductDetails(productId) {
   const token = localStorage.getItem("authToken");
-
-  const response = await fetch(`http://localhost:5000/api/cart/${cartId}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+  const res = await fetch(`http://localhost:5000/api/products/${productId}`, {
+    headers: { Authorization: `Bearer ${token}` }
   });
+  const product = await res.json();
 
-  if (response.ok) {
-    loadCart(); // Reload cart
-  } else {
-    alert("Failed to remove item");
-  }
+  // Fetch seller info
+  const sellerRes = await fetch(`http://localhost:5000/api/users/${product.sellerId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  const seller = await sellerRes.json();
+
+  const modal = document.getElementById('product-modal');
+  const content = document.getElementById('product-detail-content');
+  const imageSrc = getImageSrc(product.images && product.images[0]);
+  content.innerHTML = `
+    <img src="${imageSrc}" alt="${product.title}" style="width: 100%; max-height: 300px; object-fit: cover;">
+    <h2>${product.title}</h2>
+    <p><strong>Price:</strong> Rs. ${product.price}</p>
+    <p><strong>Stock:</strong> ${product.stock}</p>
+    <p><strong>Category:</strong> ${product.category || 'N/A'}</p>
+    <p><strong>Subcategory:</strong> ${product.subcategory || 'N/A'}</p>
+    <p><strong>Era:</strong> ${product.era || 'N/A'}</p>
+    <p><strong>Seller:</strong> ${seller.displayName} (${seller.email})</p>
+    <p><strong>Description:</strong> ${product.description || 'No description'}</p>
+    <button onclick="addToCart('${product._id}'); closeProductModal();">Buy Now</button>
+  `;
+  modal.style.display = 'flex';
+}
+
+function closeProductModal() {
+  document.getElementById('product-modal').style.display = 'none';
 }
 
 document.addEventListener("DOMContentLoaded", loadCart);
@@ -880,3 +900,5 @@ window.addToCart = addToCart;
 window.checkoutItem = checkoutItem;
 window.checkoutAll = checkoutAll;
 window.removeFromCart = removeFromCart;
+window.viewProductDetails = viewProductDetails;
+window.closeProductModal = closeProductModal;

@@ -12,18 +12,27 @@ router.post("/", verifyUser, async (req, res) => {
 
   for (const it of itemsIn) {
     const prod = await Product.findById(it.productId);
+    if (!prod) return res.status(400).json({ message: `Product ${it.productId} not found` });
+    if (prod.stock < it.qty) return res.status(400).json({ message: `Insufficient stock for ${prod.title}` });
     annotated.push({
       productId: it.productId,
       qty: it.qty || 1,
-      sellerId: prod ? prod.sellerId : null
+      sellerId: prod.sellerId
     });
   }
 
   const order = await Order.create({
     userId: req.user.uid,
     items: annotated,
-    total: req.body.total
+    total: req.body.total,
+    shippingAddress: req.body.shippingAddress,
+    notes: req.body.notes
   });
+
+  // Reduce stock
+  for (const it of annotated) {
+    await Product.findByIdAndUpdate(it.productId, { $inc: { stock: -it.qty } });
+  }
 
   res.json(order);
 });
@@ -67,5 +76,47 @@ router.put("/:id/cancel", verifyUser, async (req, res) => {
 
   res.status(403).json({ message: "Not allowed to cancel this order" });
 });
+
+// Update order status (seller only, to completed)
+router.put("/:id/status", verifyUser, async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (!order) return res.status(404).json({ message: "Order not found" });
+
+  if (!req.user.seller) return res.status(403).json({ message: "Not allowed" });
+
+  const has = order.items.some(i => i.sellerId === req.user.uid);
+  if (!has) return res.status(403).json({ message: "Not allowed to update this order" });
+
+  const newStatus = req.body.status;
+  if (newStatus !== "completed" && newStatus !== "in transit") return res.status(400).json({ message: "Invalid status update" });
+
+  order.status = newStatus;
+  await order.save();
+  res.json(order);
+});
+
+// Delete an order seller
+// DELETE order (seller only, completed/cancelled)
+router.delete("/:id", verifyUser, async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // OPTIONAL: allow delete only if completed/cancelled
+    if (!["completed", "cancelled"].includes(order.status)) {
+      return res.status(400).json({ message: "Order cannot be deleted" });
+    }
+
+    await Order.findByIdAndDelete(req.params.id);
+    res.json({ message: "Order deleted successfully" });
+  } catch (err) {
+    console.error("Delete order error:", err);
+    res.status(500).json({ message: "Failed to delete order" });
+  }
+});
+
 
 module.exports = router;

@@ -297,7 +297,7 @@
 
     <footer class="section-p1">
         <div class="col">
-            <img class="logo" src="img/LocalArtHub1.jpg" alt="">
+            <img class="logo" src="images/LocalArtHub logo.png" alt="">
             <h4>Contact</h4>
             <p><strong>Address:</strong> Kathmandu, Nepal</p>
             <p><strong>Phone:</strong> +977 9834567890</p>
@@ -506,7 +506,24 @@
                 const order = await res.json();
                 alert("Order placed successfully! Order ID: " + order._id);
 
-                // Clear cart (optional - could implement clear cart endpoint)
+                // Clear cart on server
+                try {
+                  const clearRes = await fetch("http://localhost:5000/api/cart/clear", {
+                    method: "DELETE",
+                    headers: {
+                    //   Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`}
+                  });
+                  if (!clearRes.ok) {
+                    console.warn("Failed to clear cart:", clearRes.status);
+                    alert("Order placed, but failed to clear cart. Please refresh.");
+                  }
+                } catch (err) {
+                  console.warn("Error clearing cart:", err);
+                  alert("Order placed, but failed to clear cart. Please refresh.");
+                }
+
+                // Redirect after clearing cart
                 window.location.href = "main.html";
             } catch (e) {
                 console.error("Error placing order:", e);

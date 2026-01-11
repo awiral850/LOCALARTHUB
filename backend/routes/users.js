@@ -29,4 +29,38 @@ router.post('/become-seller', verifyUser, async (req, res) => {
   }
 });
 
+// Get all sellers (admin only)
+router.get('/sellers', verifyUser, async (req, res) => {
+  if (!req.user.admin) return res.status(403).json({ message: 'Not authorized' });
+
+  try {
+    const listUsersResult = await admin.auth().listUsers();
+    const sellers = listUsersResult.users.filter(user => user.customClaims && user.customClaims.seller);
+    const sellerData = sellers.map(user => ({
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName || 'N/A',
+      // Add more fields if needed
+    }));
+    res.json(sellerData);
+  } catch (e) {
+    console.error('Error fetching sellers:', e);
+    res.status(500).json({ message: 'Failed to fetch sellers' });
+  }
+});
+
+// Get user by uid
+router.get('/:uid', verifyUser, async (req, res) => {
+  try {
+    const userRecord = await admin.auth().getUser(req.params.uid);
+    res.json({
+      uid: userRecord.uid,
+      email: userRecord.email,
+      displayName: userRecord.displayName || 'N/A'
+    });
+  } catch (e) {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+
 module.exports = router;

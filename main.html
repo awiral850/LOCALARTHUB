@@ -35,6 +35,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
+  gap: 15px;
 }
 
 .modal-buttons button {
@@ -67,6 +68,7 @@
                     <!-- <li><a href="#" >Blog</a></li> -->
                     <li><a href="admin.html">Admin</a></li>
                     <li><a href="aboutus.html" >About</a></li>
+                    <li><a href="user-orders.html" >My Orders</a></li>
                     <li><a href="contactus.html" >Contact</a></li>
                     <a href="#" id="close"><i class="fas fa-times"></i></a> 
                 </ul>
@@ -160,7 +162,7 @@
             <div class="newstext">
                 <h4>NEW ITEMS SALE!!!!</h4>
                 <h2>Shop all the latest items and enjoy special offers upto <span> 60% off.</span></h2>
-                <button class="normal">Explore More</button>
+              <a href="shop.html">  <button class="normal">Explore More</button></a>
             </div>
         </section>
 
@@ -217,7 +219,7 @@
 
         <footer class="section-p1">
             <div class="col">
-                <img class="logo" src="img/LocalArtHub1.jpg" alt="">
+                <img class="logo" src="images/LocalArtHub logo.png" alt="">
                 <h4>Contact</h4>
                 <p><strong>Address:</strong> Kathmandu, Nepal</p>
                 <p><strong>Phone:</strong> +977 9834567890</p>
@@ -294,8 +296,17 @@
   </div>
 </div>
 
+<!-- PRODUCT DETAIL MODAL -->
+<div id="product-modal" class="modal">
+  <div class="modal-content" style="max-width: 600px;">
+    <span class="close" onclick="closeProductModal()">&times;</span>
+    <div id="product-detail-content">
+      <!-- Product details here -->
+    </div>
+  </div>
+</div>
+
        
-        <script src="script.js"></script>
 
         <!-- <script>
     // Get all navigation links

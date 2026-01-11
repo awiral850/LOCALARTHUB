@@ -203,7 +203,8 @@
                     <li><a class="active" href="main.html">Home</a></li>
                     <li><a href="shop.html" class="active">Shop</a></li>
                     <!-- <li><a href="blog.html">Blog</a></li> -->
-                    <li><a href="aboutus.html">About</a></li>
+                    <!-- <li><a href="aboutus.html">About</a></li> -->
+                     <li><a href="user-orders.html">My Orders</a></li>
                     <li><a href="contactus.html">Contact</a></li>
                     <a href="#" id="close"><i class="fas fa-times"></i></a> 
                 </ul>
@@ -485,6 +486,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
+<!-- Product Detail Modal -->
+<div id="product-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeProductModal()">&times;</span>
+    <div id="product-detail-content">
+      <!-- Product details will be loaded here -->
+    </div>
+  </div>
+</div>
 
         <script type="module" src="script.js"></script>
     </body>

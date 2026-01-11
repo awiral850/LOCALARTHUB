@@ -4,6 +4,21 @@ const { verifyUser } = require("../authMiddleware");
 
 const router = express.Router();
 
+/* ================= CLEAR CART (MUST BE FIRST) ================= */
+router.delete("/clear", verifyUser, async (req, res) => {
+  try {
+    console.log("Clearing cart for:", req.user.uid);
+    await Cart.deleteMany({ userId: req.user.uid });
+    res.json({ message: "Cart cleared" });
+  } catch (err) {
+    console.error("Clear cart error:", err);
+    res.status(500).json({ message: "Failed to clear cart" });
+  }
+});
+
+
+
+
 // add to cart
 router.post("/", verifyUser, async (req, res) => {
   console.log("Adding to cart:", req.body);
@@ -34,10 +49,18 @@ router.get("/", verifyUser, async (req, res) => {
   res.json(cart);
 });
 
+
+// // clear cart after order placed
+// router.delete("/clear", verifyUser, async (req, res) => {
+//   await Cart.deleteMany({ userId: req.user.uid });
+//   res.json({ message: "Cart cleared" });
+// });
+
 // delete cart item
 router.delete("/:id", verifyUser, async (req, res) => {
   await Cart.findByIdAndDelete(req.params.id);
   res.json({ message: "Item removed" });
 });
+
 
 module.exports = router;

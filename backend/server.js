@@ -12,6 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the root directory
 app.use(express.static(path.join(__dirname, '..')));
 
 const mongoUri = process.env.MONGO_URI;

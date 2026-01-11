@@ -1,6 +1,10 @@
 const express = require("express");
 const Product = require("../models/Product");
 const { verifyUser, optionalVerifyUser } = require("../authMiddleware");
+const multer = require('multer');
+const path = require('path');
+
+const upload = multer({ dest: path.join(__dirname, '../../images/') });
 
 const router = express.Router();
 
@@ -18,18 +22,73 @@ router.get("/", optionalVerifyUser, async (req, res) => {
   }
 
   console.log("Fetched products:", products.length);
-  res.json(products);
+  
+  // Ensure images is an array for each product
+  const productsData = products.map(product => {
+    const data = product.toObject();
+    if (typeof data.images === 'string') {
+      if (data.images === 'undefined') {
+        data.images = [];
+      } else {
+        data.images = [data.images];
+      }
+    } else if (!Array.isArray(data.images)) {
+      data.images = [];
+    } else {
+      // Filter out invalid images
+      data.images = data.images.filter(img => img && img !== 'undefined' && img.trim() !== '');
+    }
+    return data;
+  });
+  
+  res.json(productsData);
 });
 
-router.post("/", verifyUser, async (req, res) => {
+router.get("/:id", optionalVerifyUser, async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) return res.status(404).json({ message: "Product not found" });
+  
+  // Ensure images is an array
+  const productData = product.toObject();
+  if (typeof productData.images === 'string') {
+    if (productData.images === 'undefined') {
+      productData.images = [];
+    } else {
+      productData.images = [productData.images];
+    }
+  } else if (!Array.isArray(productData.images)) {
+    productData.images = [];
+  } else {
+    // Filter out invalid images
+    productData.images = productData.images.filter(img => img && img !== 'undefined' && img.trim() !== '');
+  }
+  
+  res.json(productData);
+});
+
+router.post("/", upload.single('image'), verifyUser, async (req, res) => {
   console.log("Adding product:", req.body);
-  const payload = Object.assign({}, req.body, { sellerId: req.user.uid });
+  const payload = { sellerId: req.user.uid };
+  payload.title = req.body.title;
+  payload.price = req.body.price;
+  payload.stock = req.body.stock;
+  payload.category = req.body.category;
+  payload.subcategory = req.body.subcategory;
+  payload.era = req.body.era;
+  payload.description = req.body.description;
+
+  if (req.file) {
+    payload.images = [`/images/${req.file.filename}`];
+  } else {
+    payload.images = [req.body.image];
+  }
+
   const product = await Product.create(payload);
   console.log("Product created:", product);
   res.json(product);
 });
 
-router.put("/:id", verifyUser, async (req, res) => {
+router.put("/:id", upload.single('image'), verifyUser, async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (!product) return res.status(404).json({ message: "Product not found" });
 
@@ -38,7 +97,22 @@ router.put("/:id", verifyUser, async (req, res) => {
     return res.status(403).json({ message: "Not allowed to edit this product" });
   }
 
-  Object.assign(product, req.body);
+  const payload = {};
+  if (req.body.title) payload.title = req.body.title;
+  if (req.body.price) payload.price = req.body.price;
+  if (req.body.stock) payload.stock = req.body.stock;
+  if (req.body.category) payload.category = req.body.category;
+  if (req.body.subcategory) payload.subcategory = req.body.subcategory;
+  if (req.body.era) payload.era = req.body.era;
+  if (req.body.description) payload.description = req.body.description;
+
+  if (req.file) {
+    payload.images = [`/images/${req.file.filename}`];
+  } else if (req.body.image) {
+    payload.images = [req.body.image];
+  }
+
+  Object.assign(product, payload);
   await product.save();
   res.json(product);
 });
